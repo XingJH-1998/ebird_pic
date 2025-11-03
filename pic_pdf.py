@@ -3,14 +3,12 @@ from fpdf import FPDF
 import os
 import pandas as pd
 
-# 设置文件夹路径
-root_folder = "/Users/tangerine/Desktop/test_ebird"
+root_folder = "test_ebird"
 
-# 读取 ebird_taxa.xlsx
-xls_path = "/Users/tangerine/Documents/ebird_taxa.xlsx"
+xls_path = "ebird_taxa.xlsx"
 df = pd.read_excel(xls_path)
 
-# 提取物种名称列和分布情况列
+
 common_names = df['common_name'].tolist()
 #location_columns = df.columns[4:8]
 #locations = df[location_columns]
@@ -22,13 +20,13 @@ pdf.set_auto_page_break(auto=True, margin=1)  # 减小页面边距
 # 设置字体
 pdf.set_font("helvetica", size=12)
 
-# 遍历每个子文件夹
+
 for common_name in common_names:
     folder_path = os.path.join(root_folder, common_name)
-    if os.path.isdir(folder_path):  # 确保是子文件夹
+    if os.path.isdir(folder_path): 
         pdf.add_page()
 
-        # 添加鸟类 common name
+        # common name
         species_row = df[df['common_name'] == common_name]
         #distributed_locations = ',   '.join(species_row.iloc[0, 3:8].dropna().index)
         title_height = 5  # 标题高度
@@ -88,6 +86,6 @@ for common_name in common_names:
                 os.remove(temp_file)
 
 # 保存PDF
-output_pdf = "/Users/tangerine/Desktop/Birds_Collection_High_Quality.pdf"
+output_pdf = "Birds_Collection_High_Quality.pdf"
 pdf.output(output_pdf)
 print(f"PDF saved as {output_pdf}")
